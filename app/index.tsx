@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import LandingScreen from "@/components/LandingScreens/LandingScreen"
+import LandingScreen from "@/components/LandingScreens/ReportLandingScreen"
 const index = () => {
   return (
     <View>
