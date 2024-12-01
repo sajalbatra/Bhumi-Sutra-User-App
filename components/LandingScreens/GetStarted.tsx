@@ -2,36 +2,33 @@ import React from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { router } from 'expo-router';
-import Animated, { Easing, withSpring, useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window');
 
-const ReportLandingScreen = () => {
+const GetStartedLandingScreen = () => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#030712" />
             <Image source={require('../../assets/icons/PurpleEllipseLarge1.png')} style={styles.topLeftEllipse} />
             <Image source={require('../../assets/icons/PurpleEllipseLarge2.png')} style={styles.bottomRightEllipse} />
             <Image source={require('../../assets/icons/PurpleEllipseSmall.png')} style={styles.topRightEllipse} />
-            {/* <Image source={require('../../assets/logo.png')} style={styles.logo} /> */}
-            <View style={{paddingHorizontal:8,alignSelf:"center"}}>
-                <Text style={styles.maninHeading}>Report Suspicious Construction</Text>
-                <Text style={styles.mainText}>
-                    Easily report unauthorized construction activities with location tagging and photo uploads.            
-                </Text>
+            <View style={styles.contentContainer}>
+                <Text style={styles.maninHeading}>You're ready to make a difference!</Text>    
+                <Image 
+                    source={require('../../assets/images/GetStarted.png')} 
+                    style={styles.mainImage} 
+                />
             </View>
-            <Image source={require('../../assets/images/ReportScreen.png')} style={styles.mainImage} />
             <View style={styles.bottomcontainer}>
-                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.back()}} >
+            <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.back()}} >
                     <AntDesign name="arrowleft" size={24} color="#D7C6F6" />
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.skipButton}>
                     <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity> */}
-                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.push("/TrackLanding")}} >
+                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.push("/Login")}} >
                     <AntDesign name="arrowright" size={24} color="#D7C6F6" />
                 </TouchableOpacity>
-
             </View>
         </View>
     )
@@ -45,6 +42,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
+    },
+    contentContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: width,
     },
     topLeftEllipse: {
         position: 'absolute',
@@ -74,51 +77,58 @@ const styles = StyleSheet.create({
         width: width,
         height: width * 0.3,
         marginBottom: 20,
-        alignSelf:"center"
+        alignSelf: "center"
     },
     maninHeading: {
         color: '#F6F6F6',
         fontSize: 24,
         fontWeight: '600',
-        lineHeight: 28, 
-        textAlign:"center",
-        paddingHorizontal:1
+        lineHeight: 28,
+        textAlign: "center",
+        paddingHorizontal: 1,
+        position: 'absolute', 
+        top: height * 0.2, 
+        zIndex: 10,
     },
     mainImage: {
-        width: height*0.9,
-        height: height * 0.5,
+        width: width ,
+        height: height,        
+        objectFit:"contain"
     },
     bottomcontainer: {
-        width:width-50,
+        width: width - 50,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:"space-between",
+        justifyContent: "space-between",
         marginHorizontal: 20,
+        position: 'absolute',
+        bottom: height * 0.1
+
     },
     skipButton: {
         backgroundColor: '#7836E9',
         borderRadius: 14,
         paddingVertical: 12,
         paddingHorizontal: 10,
-        width: width*0.3,
+        width: width * 0.3,
         marginLeft: 10,
         alignSelf: 'center',
     },
     skipText: {
         fontWeight: '600',
-        fontSize: width * 0.04, 
+        fontSize: width * 0.04,
         textAlign: 'center',
         color: '#FFF',
     },
     mainText: {
         fontWeight: '400',
-        fontSize: 16, 
+        fontSize: 16,
         textAlign: 'center',
         color: '#D7C6F6',
-        lineHeight: 24, 
-        marginTop:20
+        lineHeight: 24,
+        marginTop: 20
 
     },
 });
 
-export default ReportLandingScreen;
+export default GetStartedLandingScreen;

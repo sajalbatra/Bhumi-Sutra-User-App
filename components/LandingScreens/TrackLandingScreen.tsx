@@ -2,11 +2,10 @@ import React from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { router } from 'expo-router';
-import Animated, { Easing, withSpring, useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window');
 
-const ReportLandingScreen = () => {
+const TrackLandingScreen = () => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#030712" />
@@ -14,24 +13,23 @@ const ReportLandingScreen = () => {
             <Image source={require('../../assets/icons/PurpleEllipseLarge2.png')} style={styles.bottomRightEllipse} />
             <Image source={require('../../assets/icons/PurpleEllipseSmall.png')} style={styles.topRightEllipse} />
             {/* <Image source={require('../../assets/logo.png')} style={styles.logo} /> */}
-            <View style={{paddingHorizontal:8,alignSelf:"center"}}>
-                <Text style={styles.maninHeading}>Report Suspicious Construction</Text>
+            <View style={{paddingHorizontal:8,alignSelf:"center", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
+                <Text style={styles.maninHeading}>Track Your Reports</Text>
                 <Text style={styles.mainText}>
-                    Easily report unauthorized construction activities with location tagging and photo uploads.            
+                Stay updated with real-time progress of your submissions, from review to resolution.
                 </Text>
             </View>
-            <Image source={require('../../assets/images/ReportScreen.png')} style={styles.mainImage} />
+            <Image source={require('../../assets/images/Track.png')} style={styles.mainImage} />
             <View style={styles.bottomcontainer}>
-                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.back()}} >
+            <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.back()}} >
                     <AntDesign name="arrowleft" size={24} color="#D7C6F6" />
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.skipButton}>
                     <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity> */}
-                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.push("/TrackLanding")}} >
+                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.push("/EngageLanding")}} >
                     <AntDesign name="arrowright" size={24} color="#D7C6F6" />
                 </TouchableOpacity>
-
             </View>
         </View>
     )
@@ -87,6 +85,7 @@ const styles = StyleSheet.create({
     mainImage: {
         width: height*0.9,
         height: height * 0.5,
+        objectFit:"contain"
     },
     bottomcontainer: {
         width:width-50,
@@ -116,9 +115,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#D7C6F6',
         lineHeight: 24, 
-        marginTop:20
+        marginTop:20,
+        
 
     },
 });
 
-export default ReportLandingScreen;
+export default TrackLandingScreen;
