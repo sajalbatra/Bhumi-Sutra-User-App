@@ -18,7 +18,7 @@ import {
 } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-
+import HeaderSection from './Header';
 const { width, height } = Dimensions.get('window');
 
 const MapViewScreen = () => {
@@ -92,8 +92,8 @@ const MapViewScreen = () => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#030712" />
 
-      <View style={styles.headerContainer}>
-        <View style={styles.headerTopRow}>
+      <View style={styles.mapViewConatiner}>
+        {/* <View style={styles.headerTopRow}>
           <View style={styles.locationContainer}>
             <Entypo name="location-pin" size={30} color="white" />
             <View>
@@ -105,8 +105,8 @@ const MapViewScreen = () => {
 
             <Feather name="menu" size={24} color="white" />
           </View>
-        </View>
-
+        </View> */}
+        <HeaderSection/>
         <View style={styles.navigationButtons}>
           <TouchableOpacity style={styles.navHomeButton}>
             <Text style={styles.navButtonText}>Home</Text>
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: '#030712',
   },
-  headerContainer: {
+  mapViewConatiner: {
     paddingHorizontal: 10,
     paddingTop: 10,
   },

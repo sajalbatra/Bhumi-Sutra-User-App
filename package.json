@@ -46,7 +46,9 @@
     "react-native-svg": "^15.9.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "expo-camera": "~16.0.8",
+    "expo-image-picker": "~16.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -16,6 +16,7 @@ import {
   Ionicons,
   MaterialCommunityIcons
 } from '@expo/vector-icons';
+import HeaderSection from './Header';
 const { width, height } = Dimensions.get('window');
 
 const HomeScreen = () => {
@@ -63,8 +64,8 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#030712" />
       {/* Header */}
-      <View style={styles.headerContainer}>
-        <View style={styles.headerTopRow}>
+      <View style={styles.homeviewcontainer}>
+        {/* <View style={styles.headerTopRow}>
           <View style={styles.locationContainer}>
             <Entypo name="location-pin" size={30} color="white" />
             <View>
@@ -76,8 +77,8 @@ const HomeScreen = () => {
             <Feather name="bell" size={24} color="white" style={styles.iconMargin} />
             <Feather name="menu" size={24} color="white" />
           </View>
-        </View>
-
+        </View> */}
+        <HeaderSection/>
         {/* Navigation Buttons */}
         <View style={styles.navigationButtons}>
           <TouchableOpacity style={styles.navHomeButton}>
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: '#030712',
   },
-  headerContainer: {
+  homeviewcontainer: {
     paddingHorizontal: 10,
     paddingTop: 10,
   },
