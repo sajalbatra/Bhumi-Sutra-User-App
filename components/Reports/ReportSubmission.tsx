@@ -36,7 +36,6 @@ const ReportSubmission = () => {
         address: any
     } | null>(null);
     // const addressParts = location?.address ? location.address.split(',') : ['Location detected'];
-    console.log("addressP", location?.address)
     const cameraRef = useRef<CameraView>(null);
     const requestLocationPermission = async () => {
         try {
@@ -112,7 +111,6 @@ const ReportSubmission = () => {
         if (cameraRef.current) {
             try {
                 const photo = await cameraRef.current.takePictureAsync();
-                console.log("captured inage ", photo?.uri)
                 setCapturedImage(photo?.uri);
                 setIsCameraModalVisible(false);
             } catch (error) {
@@ -171,7 +169,6 @@ const ReportSubmission = () => {
             </View>
         );
     }
-    console.log(capturedImage);
 
     return (
         <ScrollView
