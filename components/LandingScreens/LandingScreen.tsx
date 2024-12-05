@@ -1,7 +1,7 @@
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { Svg, Defs, LinearGradient as SVGLinearGradient, Stop, Text as SVGText } from 'react-native-svg';
+import { useNavigation} from '@react-navigation/native';
 
 const GradientText = ({ text, gradientColors, style }:any) => {
     return (
@@ -29,7 +29,7 @@ const GradientText = ({ text, gradientColors, style }:any) => {
 };
 const { width, height } = Dimensions.get('window');
 const LandingScreen = () => {
-    const router = useRouter();
+    const navigation = useNavigation<any>();
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#030712" />
@@ -47,8 +47,8 @@ const LandingScreen = () => {
             Empowering Communities for Ethical Development
             </Text>
             <Image source={require('../../assets/images/LandingScreen.png')} style={styles.mainImage} />
-            <TouchableOpacity style={styles.getStartedButton} onPress={()=>{router.push('/ReportLanding')}}>
-                <Text style={styles.getStartedText}>Get Started</Text>
+            <TouchableOpacity style={styles.getStartedButton} onPress={() => navigation.push('ReportLanding')} >
+                <Text style={styles.getStartedText} >Get Started</Text>
             </TouchableOpacity>
         </View>
     );

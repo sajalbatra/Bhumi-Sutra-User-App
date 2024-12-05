@@ -18,10 +18,10 @@ import {
 } from '@expo/vector-icons';
 import HeaderSection from './Header';
 const { width, height } = Dimensions.get('window');
-
+import { useNavigation } from '@react-navigation/native';
 const HomeScreen = () => {
   const [comment, setComment] = useState("");
-
+  const Navigator=useNavigation<any>()
   const handleCommentSubmit = () => {
     if (comment.trim()) {
       setComment("");
@@ -85,7 +85,7 @@ const HomeScreen = () => {
             <Text style={styles.navButtonText}>Home</Text>
             <Ionicons name="home-outline" size={20} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.navMapButton}>
+          <TouchableOpacity style={styles.navMapButton} onPress={()=>{Navigator.navigate("MapView")}}>
             <Text style={styles.navButtonText}>Map View</Text>
             <Feather name="map" size={18} color="white" />
           </TouchableOpacity>

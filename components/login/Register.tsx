@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
     View,
@@ -16,8 +15,10 @@ import {
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
+import { useNavigation} from '@react-navigation/native';
 
 const SignUpScreen = () => {
+    const navigation = useNavigation<any>();
     const [fullname, setFullname] = useState('');
     const [phoneNumber, setphoneNumber] = useState('');
     const [email, setEmail] = useState('');
@@ -88,7 +89,7 @@ const SignUpScreen = () => {
 
     const handleLoginNavigation = () => {
         // TODO: Implement navigation to login screen
-        router.push("/Login")
+        navigation.navigate("Login")
         //Alert.alert('Navigation', 'Navigation to login screen to be implemented');
     };
 
@@ -110,7 +111,7 @@ const SignUpScreen = () => {
                 <View style={styles.headerContainer}>
                     <Text style={styles.mainHeading}>Create Your Account</Text>
                     <Text style={styles.mainText}>
-                        Join BhumiSutrat and help keep your community safe!
+                        Join BhumiSutra and help keep your community safe!
                     </Text>
                 </View>
 

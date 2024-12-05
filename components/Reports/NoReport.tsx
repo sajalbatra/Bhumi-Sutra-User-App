@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         width: '90%',
     },
     reportImage: {
-        height: height * 0.4,
+        height: height * 0.3,
         width: '100%',
         resizeMode: 'contain',
         marginVertical: 20,

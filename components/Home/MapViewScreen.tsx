@@ -20,7 +20,7 @@ import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import HeaderSection from './Header';
 const { width, height } = Dimensions.get('window');
-
+import { useNavigation } from '@react-navigation/native';
 const MapViewScreen = () => {
   const [location, setLocation] = useState<any>(null);
   // const [markers, setMarkers] = useState<any>([]);
@@ -28,7 +28,7 @@ const MapViewScreen = () => {
   const [isSearchModalVisible, setSearchModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const mapRef = useRef<MapView>(null);
-
+  const Navigator=useNavigation<any>()
   const getCurrentLocation = async () => {
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -108,11 +108,11 @@ const MapViewScreen = () => {
         </View> */}
         <HeaderSection/>
         <View style={styles.navigationButtons}>
-          <TouchableOpacity style={styles.navHomeButton}>
+          <TouchableOpacity style={styles.navMapButton} onPress={()=>{Navigator.navigate("Main")}}>
             <Text style={styles.navButtonText}>Home</Text>
             <Ionicons name="home-outline" size={20} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.navMapButton}>
+          <TouchableOpacity style={styles.navHomeButton}>
             <Text style={styles.navButtonText}>Map View</Text>
             <Feather name="map" size={18} color="white" />
           </TouchableOpacity>

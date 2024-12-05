@@ -15,7 +15,7 @@ const ProfileSettingsScreen = () => {
             <StatusBar barStyle="light-content" backgroundColor="#030712" />
             <HeaderSection />
             <Text style={styles.title}>
-            Profile & Settings
+                Profile & Settings
             </Text>
             <View style={styles.profileContainer}>
                 <View style={styles.profileInfo}>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginVertical:-5
+        marginVertical: -5
         // marginVertical: 12,
     },
     settingLabel: {

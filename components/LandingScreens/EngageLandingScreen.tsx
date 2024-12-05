@@ -1,11 +1,12 @@
 import React from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { router } from 'expo-router';
+import { useNavigation} from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
 const EngageLandingScreen = () => {
+    const navigation = useNavigation<any>();
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#030712" />
@@ -21,13 +22,13 @@ const EngageLandingScreen = () => {
             </View>
             <Image source={require('../../assets/images/Engage.png')} style={styles.mainImage} />
             <View style={styles.bottomcontainer}>
-            <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.back()}} >
+            <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={() => navigation.goBack()}>
                     <AntDesign name="arrowleft" size={24} color="#D7C6F6" />
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.skipButton}>
                     <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity> */}
-                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={()=>{router.push("/SecureBlockchainLanding")}} >
+                <TouchableOpacity style={{borderRadius:"100%",backgroundColor:"#7836E9",padding:10}} onPress={() => navigation.push('SecureBlockchainLanding')}>
                     <AntDesign name="arrowright" size={24} color="#D7C6F6" />
                 </TouchableOpacity>
             </View>

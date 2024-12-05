@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   View,
@@ -13,10 +12,12 @@ import {
   Platform,
   Alert
 } from 'react-native';
+import { useNavigation} from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
 const LoginScreen = () => {
+  const navigation = useNavigation<any>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -59,7 +60,7 @@ const LoginScreen = () => {
 
   const handleSignUp = () => {
     // TODO: Implement sign up navigation
-    router.push("/Register")
+    navigation.navigate("Register")
     //Alert.alert('Sign Up', 'Sign up functionality to be implemented');
   };
 
@@ -80,7 +81,7 @@ const LoginScreen = () => {
       <Image source={require('../../assets/icons/PurpleEllipseSmall.png')} style={styles.topRightEllipse} />
 
       <View style={styles.headerContainer}>
-        <Text style={styles.mainHeading}>Welcome to BhumiSutrat</Text>
+        <Text style={styles.mainHeading}>Welcome to BhumiSutra</Text>
         <Text style={styles.mainText}>
           Easily report unauthorized construction and keep your community safe!
         </Text>

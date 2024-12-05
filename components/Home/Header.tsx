@@ -22,6 +22,7 @@ import {
 } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -33,7 +34,7 @@ const HeaderSection = () => {
     const menuSlideAnim = useRef(new Animated.Value(height)).current;
 
     const mapRef = useRef<MapView>(null);
-
+    const Navigation=useNavigation<any>()
     const getCurrentLocation = async () => {
         try {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -143,21 +144,24 @@ const HeaderSection = () => {
                     </View>
                     
                     <View style={styles.menuItemsContainer}>
-                        <TouchableOpacity style={styles.menuItem}>
+                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Main", {
+  screen: "Tabs",
+  params: { screen: "Profile" },
+});}}>
                         <FontAwesome name="user" size={24} color="white" />  
                         <Text style={styles.menuItemText}>Profile</Text>
                         </TouchableOpacity>
                         
-                        <TouchableOpacity style={styles.menuItem}>
+                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Community")}}>
                         <FontAwesome name="group" size={24} color="white" />
                         <Text style={styles.menuItemText}>Community Updates</Text>
                         </TouchableOpacity>
                         
-                        <TouchableOpacity style={styles.menuItem}>
+                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Feedback")}}>
                         <MaterialIcons name="feedback" size={24} color="white" />                            <Text style={styles.menuItemText}>Feedback</Text>
                         </TouchableOpacity>
                         
-                        <TouchableOpacity style={styles.menuItem}>
+                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Help")}}>
                         <MaterialIcons name="tips-and-updates" size={24} color="white" />
                             <Text style={styles.menuItemText}>Learn Tips</Text>
                         </TouchableOpacity>
@@ -215,7 +219,7 @@ const styles = StyleSheet.create({
     menuContainer: {
         paddingTop: Platform.OS === 'ios' ? 50 : 30,
         paddingHorizontal: 20,
-        backgroundColor: '#1E293B',
+        backgroundColor: '#030712',
         width:width,
         height:height,
         marginHorizontal:"auto"
