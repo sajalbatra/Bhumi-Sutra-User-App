@@ -3,7 +3,7 @@ import React from 'react'
 import NoReportsScreen from './NoReport'
 import UserReport from './UserReport'
 const ShowReports = () => {
-  const hasreports=true
+  const hasreports=false
   if(hasreports){
     return <UserReport/>
   }

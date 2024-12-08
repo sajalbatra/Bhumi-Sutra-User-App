@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         lineHeight: 28,
         textAlign: "center",
-        paddingHorizontal: 1,
+        // paddingHorizontal: 1,
         position: 'absolute', 
         top: height * 0.2, 
         zIndex: 10,

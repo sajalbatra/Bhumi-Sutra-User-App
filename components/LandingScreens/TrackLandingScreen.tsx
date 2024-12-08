@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:1
     },
     mainImage: {
-        width: height*0.9,
+        width: "100%",
         height: height * 0.5,
         objectFit:"contain"
     },
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:"space-between",
-        marginHorizontal: 20,
+        // marginHorizontal: 20,
     },
     skipButton: {
         backgroundColor: '#7836E9',

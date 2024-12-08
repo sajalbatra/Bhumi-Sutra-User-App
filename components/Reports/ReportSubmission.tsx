@@ -12,11 +12,13 @@ import {
     Image,
     ScrollView,
     Alert,
-    Modal
+    Modal,
+    ActivityIndicator
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
+import uploadToCloudinary from '@/UploadtoCloud';
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,6 +38,7 @@ const ReportSubmission = () => {
         address: any
     } | null>(null);
     // const addressParts = location?.address ? location.address.split(',') : ['Location detected'];
+    const [isSubmitting, setIsSubmitting] = useState(false); // New state for submission loading
     const cameraRef = useRef<CameraView>(null);
     const requestLocationPermission = async () => {
         try {
@@ -120,7 +123,7 @@ const ReportSubmission = () => {
         }
     };
 
-    const submitReport = () => {
+    const submitReport = async () => {
         // Validate report submission
         if (!capturedImage) {
             Alert.alert('Missing Image', 'Please capture an image for the report');
@@ -131,10 +134,11 @@ const ReportSubmission = () => {
             Alert.alert('Missing Description', 'Please provide a description of the suspicious activity');
             return;
         }
-
+        setIsSubmitting(true);
+        const imageUrl = await uploadToCloudinary({ file: capturedImage });
         // Construct report object
         const report = {
-            image: capturedImage,
+            image: imageUrl,
             description: description.trim(),
             isAnonymous,
             location: location ? {
@@ -147,7 +151,7 @@ const ReportSubmission = () => {
         // TODO: Implement actual report submission logic (e.g., API call)
         console.log('Report Submitted:', report);
         Alert.alert('Report Submitted', 'Thank you for your submission');
-
+        setIsSubmitting(false);
         // Reset form
         setCapturedImage(null);
         setDescription('');
@@ -285,6 +289,12 @@ const ReportSubmission = () => {
             >
                 <Text style={styles.submitButtonText}>Submit Report</Text>
             </TouchableOpacity>
+            
+            {isSubmitting ? (
+                <ActivityIndicator color="white" />
+            ) : (
+                null
+            )}
         </ScrollView>
     );
 };

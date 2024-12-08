@@ -30,11 +30,11 @@ const HeaderSection = () => {
     const [location, setLocation] = useState<any>(null);
     const [address, setAddress] = useState<any>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
+
     const menuSlideAnim = useRef(new Animated.Value(height)).current;
 
     const mapRef = useRef<MapView>(null);
-    const Navigation=useNavigation<any>()
+    const Navigation = useNavigation<any>()
     const getCurrentLocation = async () => {
         try {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -100,6 +100,7 @@ const HeaderSection = () => {
                                     {address.name && <Text style={styles.headerTitle}>{address.name}</Text>}
                                     <Text style={styles.headerSubtitle}>
                                         {address.street && `${address.street}, `}
+                                        {address.district && `${address.district}, `}
                                         {address.city && `${address.city}, `}
                                         {address.region && `${address.region}, `}
                                         {address.country && address.country}
@@ -122,10 +123,10 @@ const HeaderSection = () => {
                 </View>
             </View>
 
-            <Animated.View 
+            <Animated.View
                 style={[
-                    styles.menuOverlay, 
-                    { 
+                    styles.menuOverlay,
+                    {
                         transform: [{ translateY: menuSlideAnim }],
                         display: isMenuOpen ? 'flex' : 'none'
                     }
@@ -133,8 +134,8 @@ const HeaderSection = () => {
             >
                 <View style={styles.menuContainer}>
                     <View style={styles.closeButtonContainer}>
-                        <TouchableOpacity 
-                            style={styles.closeButton} 
+                        <TouchableOpacity
+                            style={styles.closeButton}
                             onPress={toggleMenu}
                         >
                             <View style={styles.closeButtonCircle}>
@@ -142,27 +143,30 @@ const HeaderSection = () => {
                             </View>
                         </TouchableOpacity>
                     </View>
-                    
+
                     <View style={styles.menuItemsContainer}>
-                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Main", {
-  screen: "Tabs",
-  params: { screen: "Profile" },
-});}}>
-                        <FontAwesome name="user" size={24} color="white" />  
-                        <Text style={styles.menuItemText}>Profile</Text>
+                        <TouchableOpacity style={styles.menuItem} onPress={() => {
+                            Navigation.navigate("Main", {
+                                screen: "Tabs",
+                                params: { screen: "Profile" },
+                            });
+                        }}>
+                            <FontAwesome name="user" size={24} color="white" />
+                            <Text style={styles.menuItemText}>Profile</Text>
                         </TouchableOpacity>
-                        
-                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Community")}}>
-                        <FontAwesome name="group" size={24} color="white" />
-                        <Text style={styles.menuItemText}>Community Updates</Text>
+
+                        <TouchableOpacity style={styles.menuItem} onPress={() => { Navigation.navigate("Community") }}>
+                            <FontAwesome name="group" size={24} color="white" />
+                            <Text style={styles.menuItemText}>Community Updates</Text>
                         </TouchableOpacity>
-                        
-                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Feedback")}}>
-                        <MaterialIcons name="feedback" size={24} color="white" />                            <Text style={styles.menuItemText}>Feedback</Text>
+
+                        <TouchableOpacity style={styles.menuItem} onPress={() => { Navigation.navigate("Feedback") }}>
+                            <MaterialIcons name="feedback" size={24} color="white" />                            
+                            <Text style={styles.menuItemText}>Feedback</Text>
                         </TouchableOpacity>
-                        
-                        <TouchableOpacity style={styles.menuItem} onPress={()=>{Navigation.navigate("Help")}}>
-                        <MaterialIcons name="tips-and-updates" size={24} color="white" />
+
+                        <TouchableOpacity style={styles.menuItem} onPress={() => { Navigation.navigate("Help") }}>
+                            <MaterialIcons name="tips-and-updates" size={24} color="white" />
                             <Text style={styles.menuItemText}>Learn Tips</Text>
                         </TouchableOpacity>
                     </View>
@@ -214,15 +218,15 @@ const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: 'rgba(3, 7, 18, 0.95)',
         zIndex: 100,
-        marginHorizontal:"auto"
+        marginHorizontal: "auto"
     },
     menuContainer: {
         paddingTop: Platform.OS === 'ios' ? 50 : 30,
         paddingHorizontal: 20,
         backgroundColor: '#030712',
-        width:width,
-        height:height,
-        marginHorizontal:"auto"
+        width: width,
+        height: height,
+        marginHorizontal: "auto"
     },
     closeButtonContainer: {
         alignItems: 'flex-end',
@@ -247,9 +251,9 @@ const styles = StyleSheet.create({
     menuItemsContainer: {
         alignItems: 'center',
         marginTop: 20,
-        justifyContent:"center",
-        alignContent:"center",
-        flexDirection:"column",
+        justifyContent: "center",
+        alignContent: "center",
+        flexDirection: "column",
     },
     menuItem: {
         flexDirection: 'row',
@@ -259,8 +263,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 10,
         borderRadius: 10,
-        backgroundColor: 'rgba(255,255,255,0.1)', 
-        alignContent:"center",
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        alignContent: "center",
     },
     menuItemText: {
         color: 'white',

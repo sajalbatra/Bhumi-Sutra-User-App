@@ -19,6 +19,7 @@ import {
 import HeaderSection from './Header';
 const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
+
 const HomeScreen = () => {
   const [comment, setComment] = useState("");
   const Navigator=useNavigation<any>()
@@ -31,23 +32,7 @@ const HomeScreen = () => {
     "You have 2 Pending Reports.",
     "1 Report Resolved This Week."
   ]
-  const renderSummaryItem = ({ item }: any) => {
-
-    return (
-      <View>
-        {/* {
-
-          data.map((datatext, index) => (
-            <Text style={styles.summaryItemText}>{datatext}</Text>
-          ))
-        } */}
-        <Text style={styles.summaryItemText}>{item}</Text>
-      </View>
-    );
-  };
-
   const renderLiveFeedItem = () => {
-    // Placeholder for live feed items
     return (
       <View style={styles.liveFeedItemContainer}>
         <Text style={styles.liveFeedItemText}>
@@ -59,6 +44,15 @@ const HomeScreen = () => {
       </View>
     );
   };
+  
+  const renderSummaryItem = ({ item }: any) => {
+    return (
+      <View>
+        <Text style={styles.summaryItemText}>{item}</Text>
+      </View>
+    );
+  };
+  
 
   return (
     <View style={styles.container}>

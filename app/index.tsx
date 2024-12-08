@@ -45,7 +45,7 @@ const TabFlow = () => (
       tabBarActiveTintColor: '#FFF0F0',
       tabBarInactiveTintColor: '#A09CAB',
       tabBarIcon: ({ focused }) => {
-        let iconName;
+        let iconName: 'home' | 'home-outline' | 'add-circle' | 'add-circle-outline' | 'document' | 'document-outline' | 'person' | 'person-outline'
         let color = focused ? '#FFF0F0' : '#A09CAB';
 
         switch (route.name) {
@@ -61,6 +61,8 @@ const TabFlow = () => (
           case 'Profile':
             iconName = focused ? 'person' : 'person-outline';
             break;
+            default:
+              iconName = 'home'; 
         }
 
         return <Ionicons name={iconName} size={24} color={color} />;
@@ -76,7 +78,7 @@ const TabFlow = () => (
 
 
 const AuthenticatedFlow = () => (
-  <Stack.Navigator initialRouteName="Main" screenOptions={{ animation: 'fade', headerShown: false }}>
+  <Stack.Navigator initialRouteName="Main" screenOptions={{ animation: 'fade', headerShown: false,presentation:"transparentModal" }}>
     <Stack.Screen name="Main" component={TabFlow} />
     <Stack.Screen name="Help" component={HelpScreen} />
     <Stack.Screen name="Feedback" component={FeedbackRatingsScreen} />
@@ -92,7 +94,7 @@ const AuthenticatedFlow = () => (
 
 // Unauthenticated Flow Navigator
 const UnauthenticatedFlow = () => (
-  <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false, animation: 'fade' }}>
+  <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false, animation: 'fade',presentation:"transparentModal" }}>
     <Stack.Screen name="Landing" component={LandingScreen} />
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Register" component={SignUpScreen} />
