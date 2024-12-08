@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
     View,
     Text,
@@ -17,6 +17,12 @@ import {
 const { width, height } = Dimensions.get('window');
 import { useNavigation} from '@react-navigation/native';
 
+import axios from "axios"
+import { Base_url } from '@/constants/Constants';
+import useratom from '@/recoil/atoms/loginatom';
+import { useRecoilState } from 'recoil';
+import * as Location from 'expo-location';
+
 const SignUpScreen = () => {
     const navigation = useNavigation<any>();
     const [fullname, setFullname] = useState('');
@@ -26,16 +32,53 @@ const SignUpScreen = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+    const [User,setUser]=useRecoilState(useratom)
+    const [location, setLocation] = useState<any>(null);
+    const [address, setAddress] = useState<any>(null);
+    const mapRef = useRef<any>(null);
+    const getCurrentLocation = async () => {
+        try {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                Alert.alert('Permission Denied', 'Location permission is required to get current location');
+                return;
+            }
 
+            let currentLocation = await Location.getCurrentPositionAsync({});
+            const { latitude, longitude } = currentLocation.coords;
+            const locationData = {
+                latitude,
+                longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            };
+
+            setLocation(locationData);
+            const addressData = await Location.reverseGeocodeAsync({
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude,
+            });
+
+            setAddress(addressData[0]);
+            mapRef.current?.animateToRegion(locationData, 1000);
+        } catch (error) {
+            Alert.alert('Error', 'Failed to get current location');
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        getCurrentLocation();
+    }, []);
     const validateEmail = (email: any) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(email);
     };
-    const handleValidatePhoneNumber = () => {
-        const isValid = /^[0-9]{10}$/.test(phoneNumber);
-        return isValid
-    };
-    const handleSignUp = () => {
+    // const handleValidatePhoneNumber = () => {
+    //     const isValid = /^[0-9]{10}$/.test(phoneNumber);
+    //     return isValid
+    // };
+    const handleSignUp = async () => {
         if (!fullname.trim()) {
             Alert.alert('Error', 'Please enter your full name');
             return;
@@ -55,9 +98,9 @@ const SignUpScreen = () => {
             Alert.alert('Error', 'Please enter a valid email address');
             return;
         }
-        if (handleValidatePhoneNumber()) {
-            Alert.alert('Error', 'Please enter a valid Phone Number');
-        }
+        // if (handleValidatePhoneNumber()) {
+        //     Alert.alert('Error', 'Please enter a valid Phone Number');
+        // }
         if (!password) {
             Alert.alert('Error', 'Please enter a password');
             return;
@@ -73,13 +116,29 @@ const SignUpScreen = () => {
             return;
         }
 
-        // TODO: Implement actual sign up logic (e.g., API call)
-        console.log('Sign up attempt with:', {
-            fullname,
-            phoneNumber,
-            email
-        });
-        Alert.alert('Success', 'Sign up functionality to be implemented');
+        const payload = {
+            name: fullname, 
+            email: email, 
+            phone: phoneNumber,
+            password: password,
+            address: {
+                lat: location.latitude, 
+                lon: location.longitude
+            }
+        };
+        
+        try {
+
+            const response = await axios.post(Base_url + "/api/user/register", payload)
+            if (!response.data.success) {
+                if (response.data.user) {
+                    setUser(response.data.user)
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
+        // Alert.alert('Success', 'Sign up functionality to be implemented');
     };
 
     const handleDigilockerSignUp = () => {

@@ -47,9 +47,6 @@ const FeedbackRatingsScreen = () => {
 
   const handleSubmitFeedback = () => {
     // Handle submitting user feedback and feature enhancement suggestions
-    console.log('User Rating:', rating);
-    console.log('User Feedback:', userFeedback);
-    console.log('Feature Enhancements:', featureEnhancements);
     
     // Reset inputs after submission
     setUserFeedback('');

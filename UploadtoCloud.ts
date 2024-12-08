@@ -41,7 +41,6 @@ const uploadToCloudinary = async ({
             console.error('Cloudinary Upload Error:', error);
             reject(error);
           } else {
-            // console.log('Cloudinary Upload Response:', response);
             // Resolve with the secure URL of the uploaded image
             resolve(response?.secure_url || null);
           }

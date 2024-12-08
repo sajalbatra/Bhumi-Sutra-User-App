@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text,
     StyleSheet,
@@ -11,27 +11,49 @@ import {
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
-
+import useratom from '@/recoil/atoms/loginatom';
+import { useRecoilValue } from 'recoil';
+import { Base_url } from '@/constants/Constants';
 export default function UserReport() {
-    const [reports, setReports] = useState([
-        {
-            id: '1',
-            title: 'Incident Report',
-            date: '2024-03-15',
-            status: 'Submitted',
-            details: 'Reported a safety concern in building A, section 2.',
-        },
-        {
-            id: '2',
-            title: 'Maintenance Request',
-            date: '2024-03-10',
-            status: 'In Progress',
-            details: 'Requested repair for faulty electrical outlet in conference room.',
-        },
-    ]);
+    const user=useRecoilValue<any>(useratom)
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [selectedReport, setSelectedReport] = useState<any>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
+    const fetchReports = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${Base_url}/api/report/get/`+user?._id);
+            if (!response.ok) {
+                throw new Error('Failed to fetch reports');
+            }
+            const data = await response.json();
+            setReports(data);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        // setInterval(()=>{
+            if (user?._id) {
+                fetchReports();
+            }
+        // },6000)
+    },[]);
+
+
+    // useEffect(()=>{
+    //     if(user?.reports!=null){
+    //         setReports(user?.reports)
+    //     }
+    //     console.log(user?.reports)
+    // },[user])
     const openReportDetails = (report: any) => {
         setSelectedReport(report);
         setIsModalVisible(true);
@@ -48,10 +70,12 @@ export default function UserReport() {
             onPress={() => openReportDetails(item)}
         >
             <View style={styles.reportHeader}>
-                <Text style={styles.reportTitle}>{item.title}</Text>
-                <Text style={styles.reportDate}>{item.date}</Text>
+                <Text style={styles.reportTitle}>Report ID: {item._id}</Text>
+                <Text style={styles.reportDate}>
+                    {new Date(item.createdAt).toLocaleDateString()}
+                </Text>
             </View>
-            <Text style={styles.reportStatus}>{item.status}</Text>
+            <Text style={styles.reportStatus}>Status: {item.status}</Text>
         </TouchableOpacity>
     );
 
@@ -65,12 +89,22 @@ export default function UserReport() {
                 animationType="slide"
                 onRequestClose={closeReportDetails}
             >
-                <View style={styles.modalContainer}>
+ <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>{selectedReport.title}</Text>
-                        <Text style={styles.modalDetail}>Date: {selectedReport.date}</Text>
-                        <Text style={styles.modalDetail}>Status: {selectedReport.status}</Text>
-                        <Text style={styles.modalDetailsFull}>{selectedReport.details}</Text>
+                        <Text style={styles.modalTitle}>Report Details</Text>
+                        <Text style={styles.modalDetail}>
+                            ID: {selectedReport._id}
+                        </Text>
+                        <Text style={styles.modalDetail}>
+                            Description: {selectedReport.description}
+                        </Text>
+                        <Text style={styles.modalDetail}>
+                            Status: {selectedReport.status}
+                        </Text>
+                        <Text style={styles.modalDetail}>
+                            Created At:{' '}
+                            {new Date(selectedReport.createdAt).toLocaleString()}
+                        </Text>
                         <TouchableOpacity
                             style={styles.closeButton}
                             onPress={closeReportDetails}
@@ -88,13 +122,13 @@ export default function UserReport() {
             <StatusBar barStyle="light-content" backgroundColor="#030712" />
             <Text style={styles.infoText}>Your Reports</Text>
             <Text style={styles.message}>
-                Track the progress of your {reports.length} submitted reports
+                Track the progress of your {reports?.length || 0} submitted reports
             </Text>
 
             <FlatList
                 data={reports}
                 renderItem={renderReportItem}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item:any) => item._id}
                 contentContainerStyle={styles.reportList}
             />
 

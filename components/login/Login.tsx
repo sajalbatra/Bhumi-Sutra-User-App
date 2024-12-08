@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -13,21 +13,26 @@ import {
   Alert
 } from 'react-native';
 import { useNavigation} from '@react-navigation/native';
+import { useRecoilState } from 'recoil';
+import  useratom from "@/recoil/atoms/loginatom"
 
 const { width, height } = Dimensions.get('window');
 
+import axios from "axios"
+import {Base_url} from "@/constants/Constants"
+
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('johndoe@example.com');
+  const [password, setPassword] = useState('securepassword123');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
+  const [User,setUser]=useRecoilState(useratom)
   const validateEmail = (email: any) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
 
-  const handleLogin = () => {
+  const handleLogin =async  () => {
     if (!email) {
       Alert.alert('Error', 'Please enter your email');
       return;
@@ -47,10 +52,22 @@ const LoginScreen = () => {
       Alert.alert('Error', 'Password must be at least 6 characters long');
       return;
     }
-
-    // TODO: Implement actual login logic (e.g., API call)
+    try{
+      const response =await axios.post(Base_url+"/api/user/login",{
+        email, password
+      })
+      if(response.data.success){
+        if(response.data.user){
+          setUser(response.data.user)
+        }
+      }
+    }catch(err){
+      console.log(err)
+    }
     console.log('Login attempt with:', { email, password });
-    Alert.alert('Success', 'Login functionality to be implemented');
+    console.log("user atom changed:", User);
+
+    // Alert.alert('Success', 'Login functionality to be implemented');
   };
 
   const handleResetPassword = () => {

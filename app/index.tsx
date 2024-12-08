@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,26 +21,31 @@ import TrackLandingScreen from '@/components/LandingScreens/TrackLandingScreen';
 import LandingScreen from '@/components/LandingScreens/LandingScreen';
 import { Ionicons } from '@expo/vector-icons';
 import MapViewScreen from '@/components/Home/MapViewScreen';
+import { RecoilRoot, useRecoilState } from 'recoil';
+
+import useratom from '@/recoil/atoms/loginatom';
+import { useRecoilValue } from 'recoil';
 
 const Stack = createNativeStackNavigator<any>();
 const Tab = createBottomTabNavigator<any>();
 
+
 const TabFlow = () => (
-  <Tab.Navigator 
+  <Tab.Navigator
     screenOptions={({ route }) => ({
       headerShown: false,
       tabBarStyle: {
-        backgroundColor: '#030712', 
+        backgroundColor: '#030712',
         borderTopWidth: 1,
-        borderTopColor: '#E0E0E0', 
-        height: 60, 
+        borderTopColor: '#E0E0E0',
+        height: 60,
         paddingBottom: 5,
         paddingTop: 5,
       },
       tabBarLabelStyle: {
         fontSize: 10,
-        fontWeight: '600', 
-        marginTop: 2, 
+        fontWeight: '600',
+        marginTop: 2,
       },
       tabBarActiveTintColor: '#FFF0F0',
       tabBarInactiveTintColor: '#A09CAB',
@@ -61,8 +66,8 @@ const TabFlow = () => (
           case 'Profile':
             iconName = focused ? 'person' : 'person-outline';
             break;
-            default:
-              iconName = 'home'; 
+          default:
+            iconName = 'home';
         }
 
         return <Ionicons name={iconName} size={24} color={color} />;
@@ -78,15 +83,15 @@ const TabFlow = () => (
 
 
 const AuthenticatedFlow = () => (
-  <Stack.Navigator initialRouteName="Main" screenOptions={{ animation: 'fade', headerShown: false,presentation:"transparentModal" }}>
+  <Stack.Navigator initialRouteName="Main" screenOptions={{ animation: 'fade', headerShown: false, presentation: "transparentModal" }}>
     <Stack.Screen name="Main" component={TabFlow} />
     <Stack.Screen name="Help" component={HelpScreen} />
     <Stack.Screen name="Feedback" component={FeedbackRatingsScreen} />
     <Stack.Screen name="SubmitReport" component={ReportSubmission} />
     <Stack.Screen name="Reports" component={ShowReports} />
     {/* <Stack.Screen name="Profile" component={ProfileSettingsScreen} /> */}
-    <Stack.Screen name="MapView" component={MapViewScreen}/>
-    <Stack.Screen name="Community" component={CommunityUpdatesScreen}/>
+    <Stack.Screen name="MapView" component={MapViewScreen} />
+    <Stack.Screen name="Community" component={CommunityUpdatesScreen} />
     {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
 
   </Stack.Navigator>
@@ -94,7 +99,7 @@ const AuthenticatedFlow = () => (
 
 // Unauthenticated Flow Navigator
 const UnauthenticatedFlow = () => (
-  <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false, animation: 'fade',presentation:"transparentModal" }}>
+  <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false, animation: 'fade', presentation: "transparentModal" }}>
     <Stack.Screen name="Landing" component={LandingScreen} />
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Register" component={SignUpScreen} />
@@ -107,15 +112,21 @@ const UnauthenticatedFlow = () => (
 );
 
 const RootNavigator = () => {
-  const isLoggedIn = true;
-  return isLoggedIn ? <AuthenticatedFlow /> : <UnauthenticatedFlow />;
+  const [user, setUser] = useRecoilState(useratom);
+
+  // useEffect(() => {
+  //   console.log("user atom changed:", user);
+  // }, [user]); // Runs whenever `user` changes
+
+  return user ? <AuthenticatedFlow /> : <UnauthenticatedFlow />;
 };
+
 
 export default function App() {
   return (
-    // <NavigationContainer>
+    <RecoilRoot>
       <RootNavigator />
-    // </NavigationContainer>
+    </RecoilRoot>
   );
 }
 

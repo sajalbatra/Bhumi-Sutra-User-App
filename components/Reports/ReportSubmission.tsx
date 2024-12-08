@@ -19,9 +19,11 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
 import uploadToCloudinary from '@/UploadtoCloud';
-
+import axios from 'axios';
 const { width, height } = Dimensions.get('window');
-
+import useratom from '@/recoil/atoms/loginatom';
+import { useRecoilValue } from 'recoil';
+import { Base_url } from '@/constants/Constants';
 const ReportSubmission = () => {
     const [facing, setFacing] = useState<CameraType>('back');
     const [permission, requestPermission] = useCameraPermissions();
@@ -38,6 +40,7 @@ const ReportSubmission = () => {
         address: any
     } | null>(null);
     // const addressParts = location?.address ? location.address.split(',') : ['Location detected'];
+    const user=useRecoilValue<any>(useratom)
     const [isSubmitting, setIsSubmitting] = useState(false); // New state for submission loading
     const cameraRef = useRef<CameraView>(null);
     const requestLocationPermission = async () => {
@@ -138,20 +141,29 @@ const ReportSubmission = () => {
         const imageUrl = await uploadToCloudinary({ file: capturedImage });
         // Construct report object
         const report = {
-            image: imageUrl,
+            user,
+            image: [imageUrl],
             description: description.trim(),
             isAnonymous,
-            location: location ? {
-                latitude: location.latitude,
-                longitude: location.longitude,
-                address: location.address
+            siteGeolocation: location ? {
+                lat: location.latitude,
+                lon: location.longitude,
             } : null
         };
-
+        try{
+            const response =await axios.post(Base_url+"/api/report/create",report)
+        if(response.data){
+            Alert.alert('Report Submitted', 'Thank you for your submission');
+            setIsSubmitting(false);
+        }else{
+            setIsSubmitting(false);
+        }
+        
+    }catch(err){
+            console.log(err)
+        
+        }
         // TODO: Implement actual report submission logic (e.g., API call)
-        console.log('Report Submitted:', report);
-        Alert.alert('Report Submitted', 'Thank you for your submission');
-        setIsSubmitting(false);
         // Reset form
         setCapturedImage(null);
         setDescription('');

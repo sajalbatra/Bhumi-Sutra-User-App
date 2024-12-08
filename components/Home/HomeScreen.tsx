@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,8 @@ import {
 import HeaderSection from './Header';
 const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
+import useratom from '@/recoil/atoms/loginatom';
+import { useRecoilValue } from 'recoil';
 
 const HomeScreen = () => {
   const [comment, setComment] = useState("");
@@ -28,6 +30,17 @@ const HomeScreen = () => {
       setComment("");
     }
   };
+  const user=useRecoilValue<any>(useratom)
+  const[numreport,setnumreport]=useState(0)
+  
+  useEffect(()=>{
+    if(user?.reports?.length!=null){
+      setnumreport(user?.reports?.length)
+    }
+  },[user])
+  const { width } = Dimensions.get('window');  // Get the device width
+
+  const dynamicWidth = numreport > 0 ? (numreport * 10) : width / 2;  // 50% of the screen width if numReports is 0
   const data = [
     "You have 2 Pending Reports.",
     "1 Report Resolved This Week."
@@ -87,13 +100,13 @@ const HomeScreen = () => {
 
         {/* Progress Section */}
         <View style={styles.progressContainer}>
-          <Text style={styles.welcomeText}>Welcome Back, Sajal!</Text>
+          <Text style={styles.welcomeText}>Welcome Back, {user?.name} !</Text>
           <View style={styles.progressWrapper}>
             <MaterialCommunityIcons name="progress-star" size={24} color="#7836E9" />
-            <View style={styles.progressBar}>
-              <View style={styles.progressFill} />
+            <View style={styles.progressBar} >
+            <View style={[styles.progressFill, { width: dynamicWidth }]} />
             </View>
-            <Text style={styles.progressText}>5/10 reports this month!</Text>
+            <Text style={styles.progressText}>{numreport}/10 reports this month!</Text>
           </View>
         </View>
 
@@ -247,7 +260,7 @@ const styles = StyleSheet.create({
     marginLeft: 3
   },
   progressFill: {
-    width: '50%',
+    // width: dynamicWidth,
     height: '100%',
     backgroundColor: '#7836E9',
     borderRadius: 5,

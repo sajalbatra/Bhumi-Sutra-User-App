@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity, Dimensions, StatusBar, Image } from 'react-native';
 import HeaderSection from '../Home/Header';
-
+import useratom from '@/recoil/atoms/loginatom';
+import { useRecoilValue } from 'recoil';
 const { width, height } = Dimensions.get('window');
 
 const ProfileSettingsScreen = () => {
@@ -9,7 +10,7 @@ const ProfileSettingsScreen = () => {
     const [newFlaggedSitesNotifications, setNewFlaggedSitesNotifications] = useState(true);
     const [communityUpdatesNotifications, setCommunityUpdatesNotifications] = useState(true);
     const [allowReportVisibility, setAllowReportVisibility] = useState(true);
-
+    const user=useRecoilValue<any>(useratom)
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor="#030712" />
@@ -19,9 +20,9 @@ const ProfileSettingsScreen = () => {
             </Text>
             <View style={styles.profileContainer}>
                 <View style={styles.profileInfo}>
-                    <Text style={styles.name}>John Doe</Text>
-                    <Text style={styles.phoneNumber}>(999) 111-0000</Text>
-                    <Text style={styles.email}>Email</Text>
+                    <Text style={styles.name}>{user?.name}</Text>
+                    <Text style={styles.phoneNumber}>{user?.phone}</Text>
+                    <Text style={styles.email}>{user?.email}</Text>
                 </View>
                 <View style={styles.profilePictureContainer}>
                     <Image
